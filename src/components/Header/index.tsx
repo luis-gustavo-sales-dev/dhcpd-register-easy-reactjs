@@ -1,6 +1,6 @@
 import { Container, Content } from "./styles";
 import logoImg from "../../logo.svg";
-import { ActionButton } from "../Button";
+import { ActionButton } from "../ButtonComponent";
 
 interface HeaderProps {
   actualRouter: string;

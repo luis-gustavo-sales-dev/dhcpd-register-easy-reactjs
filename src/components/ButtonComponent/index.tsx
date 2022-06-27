@@ -1,4 +1,4 @@
-import {  MenuButton } from "./style";
+import {  MenuLink } from "./style";
 
 interface ActionButtonProps {
   text: string,
@@ -9,7 +9,7 @@ interface ActionButtonProps {
 export function ActionButton({ text, url }:ActionButtonProps) {
   return (
     <>
-      <MenuButton href={url}>{text}</MenuButton>
+      <MenuLink to={url}>{text}</MenuLink>
     </>
   );
 }
