@@ -6,6 +6,7 @@ import { AppRoutes } from './routes';
 import { Container } from './style';
 import theme from './styles/theme';
 import { GlobalStyle } from "./styles/global";
+import { DataApplicationProvider } from './hooks/dataapplication';
 
 function App() {
   const title: string = "Header Title"
@@ -13,11 +14,13 @@ function App() {
   return (
     <>
      <ThemeProvider theme={theme}>
-       <Container>
-        <AppRoutes>
-          <Header actualRouter={title} />
-        </AppRoutes>
-       </Container>
+       <DataApplicationProvider>
+        <Container>
+          <AppRoutes>
+            <Header actualRouter={title} />
+          </AppRoutes>
+        </Container>
+       </DataApplicationProvider>
       </ThemeProvider>
       <GlobalStyle />
     </>

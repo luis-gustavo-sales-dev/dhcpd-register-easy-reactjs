@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Group } from "../../../entities/Group";
+import { useGroupContext } from "../../../hooks/dataapplication";
 import GroupComponent from "../GroupComponent";
 import { Container } from "./style";
 
@@ -8,54 +9,28 @@ interface GroupToList extends Group {
 }
 
 interface GroupListComponentProps {
-  groups?: Group[]
+  groups: Group[],
+  selectedGroup: Group,
+  setSelectedGroup: (group: Group) => void;
 }
 
-export default function GroupListComponent({ groups }:GroupListComponentProps) {
+export default function GroupListComponent({ groups, selectedGroup, setSelectedGroup }:GroupListComponentProps) {
 
-  let tempGroupsToList: GroupToList[] = 
-    (groups && groups.length > 0) ? 
-      groups : 
-      [
-        {
-          id: 1,
-          name: "Servidores",
-          isActive: true
-        },
-        {
-          id: 2,
-          name: "Terceirizados"
-        },
-        {
-          id: 3,
-          name: "Temporario"
-        },
-        {
-          id: 4,
-          name: "Bolsitas"
-        }
-      ]
+  function handleClick(group: Group) {
+    
+    setSelectedGroup(group);
+    console.log(`Selected group id: ${selectedGroup.id}`);
 
-  const [groupsToList, setGroupsToList] = useState([...tempGroupsToList]);
-
-  
-
-  function handleClick(group: GroupToList) {
-    console.log(`Group id: ${group.id}`);
-    groupsToList.map((g) => {
-      g.isActive = g.id === group.id ? true : false; 
-    })
-    console.log(groupsToList)
-    setGroupsToList([...groupsToList]);
+    
   }
 
   return (
     <Container> 
       {
-        groupsToList.map( (g) => {
+        groups.map( (g) => {
           return <GroupComponent 
             key={g.id}
-            isActive={ g.isActive || false } 
+            isActive={ (selectedGroup && selectedGroup.id === g.id) ? true : false } 
             group={g} 
             action={ () => { handleClick(g) }} />
         })
