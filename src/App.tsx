@@ -3,7 +3,7 @@ import { ThemeProvider } from 'styled-components';
 // import logo from './logo.svg';
 import { Header } from './components/Header';
 import { AppRoutes } from './routes';
-import { Body, Container } from './style';
+import { Container } from './style';
 import { COLORS } from './styles/COLORS';
 import { GlobalStyle } from "./styles/global";
 
@@ -15,12 +15,11 @@ function App() {
   return (
     <>
      <ThemeProvider theme={theme}>
-        <Container>
-          <AppRoutes>
-            <Header actualRouter={title} />
-            <Body />
-          </AppRoutes>
-        </Container>
+       <Container>
+        <AppRoutes>
+          <Header actualRouter={title} />
+        </AppRoutes>
+       </Container>
       </ThemeProvider>
       <GlobalStyle />
     </>

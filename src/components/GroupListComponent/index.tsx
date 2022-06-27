@@ -29,6 +29,10 @@ export default function GroupListComponent({ groups }:GroupListComponentProps) {
         {
           id: 3,
           name: "Temporario"
+        },
+        {
+          id: 4,
+          name: "Bolsitas"
         }
       ]
 
