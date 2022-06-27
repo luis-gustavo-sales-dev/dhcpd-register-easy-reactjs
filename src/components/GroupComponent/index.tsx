@@ -1,13 +1,19 @@
+import { Group } from "../../entities/Group";
 import { Container } from "./style";
 
 interface GroupProps {
-  name: string;
   isActive: boolean;
   action: () => void;
+  group: Group
 }
 
-export default function GroupComponent({ name, isActive }:GroupProps) {
+export default function GroupComponent({ group, isActive, action }:GroupProps) {
+  console.log("isActive: " +  isActive)
   return <>
-    <Container isActive={isActive} >{name}</Container>
+    <Container 
+      isActive={isActive} 
+      onClick={action} >
+        {group.name}
+    </Container>
   </>
 }

@@ -1,9 +1,9 @@
 import GroupComponent from "../../components/GroupComponent";
+import GroupListComponent from "../../components/GroupListComponent";
 
 export default function GroupsScreen() {
   return <>
     <h1>Grupos</h1>
-    <GroupComponent name="Servidores" isActive action={() => console.log("Clicked!")}/>
-    <GroupComponent name="Terceirizados" isActive={false} action={() => console.log("Clicked!")}/>
+    <GroupListComponent />
   </>
 }
