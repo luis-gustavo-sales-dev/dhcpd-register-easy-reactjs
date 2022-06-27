@@ -1,7 +1,7 @@
 import React from 'react';
 // import logo from './logo.svg';
 import { Header } from './components/Header';
-import DashBoard from './screen/DashBoard';
+import DashBoardScreen from './screen/DashBoard';
 import { Body, Container } from './style';
 import { GlobalStyle } from "./styles/global";
 
@@ -12,7 +12,7 @@ function App() {
       <Container>
         <Header actualRouter={title} />
         <Body>
-          <DashBoard />
+          <DashBoardScreen />
         </Body>
       </Container>
       <GlobalStyle />

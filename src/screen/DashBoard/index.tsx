@@ -1,6 +1,6 @@
 import { Container, LeftDiv, RightDiv } from "./styles";
 
-export default function DashBoard() {
+export default function DashBoardScreen() {
   return (
     <Container>
       <LeftDiv></LeftDiv>
