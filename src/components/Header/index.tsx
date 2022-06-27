@@ -11,9 +11,9 @@ export function Header( { actualRouter }: HeaderProps) {
     <Container>
       <Content>
         <img src={logoImg} alt="dt money" />
-        <ActionButton text="DashBoard" />
-        <ActionButton text="Dispositivos" />
-        <ActionButton text="Grupos" />
+        <ActionButton url="/" text="DashBoard" />
+        <ActionButton url="/devices" text="Dispositivos" />
+        <ActionButton url="/groups" text="Grupos" />
         {actualRouter}
       </Content>
     </Container>

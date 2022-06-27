@@ -6,6 +6,7 @@ export const MenuButton = styled.a`
   padding: 10px;
   color: var(--shape);
   cursor: pointer;
+  text-decoration: none ;
 
   &:hover {
     filter: brightness(1.1);
