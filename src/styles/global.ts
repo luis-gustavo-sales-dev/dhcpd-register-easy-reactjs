@@ -1,21 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
+import theme from './theme'
 
 export const GlobalStyle = createGlobalStyle`
-  /*:root {
-    --red: #E52E4D;
-    --green: #33CC95;
-    --green-light: #84e0bf;
-    --green-black: #33CC10;
-    --blue: #5429CC;
-
-    --blue-light: #6933FF;
-
-    --text-title: #363F5F;
-    --text-body: #969CB3;
-
-    --background: #F0F2F5;
-    --shape: #FFFFFF;
-  }*/
 
   * {
     margin: 0;
@@ -34,11 +20,11 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: var(--background);
+    background: ${ theme.colors.shape };
     -webkit-font-smoothing: antialiased;
   }
 
-  body, input, textarea, button {
+  body, input, textarea, button, label {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
   }
@@ -51,9 +37,34 @@ export const GlobalStyle = createGlobalStyle`
     cursor: pointer;
   }
 
+ 
+
   [disabled] {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+
+  label {
+    font-size: 1.05rem ;
+    color: ${ theme.colors.textTitle } ;
+  }
+
+  input {
+    padding: 6px;
+    border: none;
+    width: 100% ;
+    background: ${ theme.colors.textTitle };
+    color: ${ theme.colors.shape } ;
+    font-weight: 500 ;
+    outline: none ;
+    font-size: 1.05rem ;
+    border-radius: 6px ;
+
+    &:focus {
+      transition: all 0.4s ease;
+      transform: scale(1.01);
+      box-shadow: 3px 5px 5px ${ theme.colors.greenLight100 };
+    }
   }
 
 `

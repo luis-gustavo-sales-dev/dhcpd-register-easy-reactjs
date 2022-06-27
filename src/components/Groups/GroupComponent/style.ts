@@ -19,7 +19,7 @@ export const Container = styled.button<ButtonGroupProps>`
 
   &:hover {
     background: ${({ theme }) => theme.colors.green };
-    box-shadow: 3px 5px 5px ${({ theme }) => theme.colors.greenLight};
+    box-shadow: 3px 5px 5px ${({ theme }) => theme.colors.greenLight100};
     border-radius: 6px;
     transition: all 0.4s ease;
     transform: scale(1.05);

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Group } from "../../entities/Group";
+import { Group } from "../../../entities/Group";
 import GroupComponent from "../GroupComponent";
 import { Container } from "./style";
 

@@ -2,11 +2,10 @@ import {  MenuLink } from "./style";
 
 interface ActionButtonProps {
   text: string,
-  url: string,
-  action?: () => void;
+  url: string
 }
 
-export function ActionButton({ text, url }:ActionButtonProps) {
+export function MenuButton({ text, url }:ActionButtonProps) {
   return (
     <>
       <MenuLink to={url}>{text}</MenuLink>

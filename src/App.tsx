@@ -4,14 +4,12 @@ import { ThemeProvider } from 'styled-components';
 import { Header } from './components/Header';
 import { AppRoutes } from './routes';
 import { Container } from './style';
-import { COLORS } from './styles/COLORS';
+import theme from './styles/theme';
 import { GlobalStyle } from "./styles/global";
 
 function App() {
   const title: string = "Header Title"
-  const theme = {
-    colors: COLORS
-  }
+
   return (
     <>
      <ThemeProvider theme={theme}>

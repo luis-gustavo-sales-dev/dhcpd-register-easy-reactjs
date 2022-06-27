@@ -1,4 +1,4 @@
-import { Group } from "../../entities/Group";
+import { Group } from "../../../entities/Group";
 import { Container } from "./style";
 
 interface GroupProps {
