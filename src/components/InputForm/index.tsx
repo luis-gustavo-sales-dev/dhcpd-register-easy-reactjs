@@ -9,7 +9,7 @@ export default function InputForm({ labelName, inputValue }:InputFormsProps) {
   return (
     <Container>
       <Label>{labelName}</Label>
-      <Input value={inputValue} />
+      <Input value={inputValue} readOnly />
     </Container>
   );
 }

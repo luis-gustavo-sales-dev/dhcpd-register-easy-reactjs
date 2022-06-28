@@ -9,7 +9,7 @@ import { GlobalStyle } from "./styles/global";
 import { DataApplicationProvider } from './hooks/dataapplication';
 
 function App() {
-  const title: string = "Header Title"
+  const title: string = "DHCP Register Tool"
 
   return (
     <>

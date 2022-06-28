@@ -1,5 +1,6 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { Group } from "../entities/Group";
+import { api } from "../services/api";
 
 interface DataApplicationProps {
   children: ReactNode;
@@ -8,7 +9,6 @@ interface DataApplicationProps {
 interface ContextApplicationData {
   groups: Group[];
   // Tem que retornar uma promise de void aqui
-  getGroups: () => void;
   selectedGroup: Group;
   setSelectedGroup: (group: Group) => void;
   loadingGroups: boolean;
@@ -17,6 +17,9 @@ interface ContextApplicationData {
 const DataApplicationContext = createContext( {} as ContextApplicationData)
 
 function DataApplicationProvider({ children }: DataApplicationProps) {
+
+  const apiGatewayUrl = "dhcpregister"
+  const dhcpGroupUrl = apiGatewayUrl+"/deviceusergroup"
 
   const [groups, setGroups] = useState<Group[]>([] as Group[]);
   const [selectedGroup, setSelectedGroup] = useState({} as Group);
@@ -73,27 +76,23 @@ function DataApplicationProvider({ children }: DataApplicationProps) {
         }
       ]
 
-  function getGroups() {
+  useEffect( () => {
+    api.get(dhcpGroupUrl+"?name=")
+      .then( response => { 
+        console.log(response.data);
 
-    setLoadingGroups(true)
-    // fetch() ou axios
+        const tempGroups: Group[] = response.data ;
+        setGroups(tempGroups) });
 
-    // useState é lento. Só sete algo quando tiver certeza que já tem.
-    setGroups([...fakeGroupList]);
-    console.log(fakeGroupList)
-    console.log(groups[0])
-    setSelectedGroup(fakeGroupList[0]);
+    setSelectedGroup(groups[0]);
     setLoadingGroups(false);
-    console.log(loadingGroups)
-      
-  }
+  }, [])
 
   return (
     <DataApplicationContext.Provider
       value={
         {
           groups,
-          getGroups,
           selectedGroup,
           setSelectedGroup,
           loadingGroups

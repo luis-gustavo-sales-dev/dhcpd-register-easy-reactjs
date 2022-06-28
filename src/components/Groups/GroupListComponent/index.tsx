@@ -19,7 +19,7 @@ export default function GroupListComponent({ groups, selectedGroup, setSelectedG
   function handleClick(group: Group) {
     
     setSelectedGroup(group);
-    console.log(`Selected group id: ${selectedGroup.id}`);
+    // console.log(`Selected group id: ${selectedGroup.id}`);
 
     
   }

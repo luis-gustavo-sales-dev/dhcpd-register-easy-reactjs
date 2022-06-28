@@ -34,7 +34,7 @@ export default function ShowGroupComponent ({ selectedGroup }: GroupListComponen
             selectedGroup.iprangegroup && selectedGroup.iprangegroup.length > 0 ? 
               selectedGroup.iprangegroup.map(
                 (ip) => {
-                  console.log(ip)
+                  // console.log(ip)
                   return <InputForm key={ip.range} labelName="Range de IP" inputValue={ip.range}/>
                 }
               )

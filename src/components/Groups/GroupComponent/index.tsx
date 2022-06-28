@@ -8,7 +8,7 @@ interface GroupProps {
 }
 
 export default function GroupComponent({ group, isActive, action }:GroupProps) {
-  console.log("isActive: " +  isActive)
+  // console.log("isActive: " +  isActive)
   return <>
     <Container 
       isActive={isActive} 

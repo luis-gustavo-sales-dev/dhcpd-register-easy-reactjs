@@ -7,11 +7,10 @@ import { Container } from "./style";
 
 
 export default function GroupsScreen() {
-  const { groups, getGroups, selectedGroup, setSelectedGroup, loadingGroups } = useGroupContext();
+  const { groups, selectedGroup, setSelectedGroup, loadingGroups } = useGroupContext();
 
   function loadGroups() {
     // Aqui tem que ser uma chamada assincrona
-    getGroups();
     // Converte o dados para JSON (ou não se usar axios)
     console.log("loadGroups" + groups)
 

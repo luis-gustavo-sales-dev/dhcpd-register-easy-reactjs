@@ -13,6 +13,7 @@ export const Container = styled.div`
   grid-gap: 16px;
   padding: 16px;
   opacity: 0;
+  margin: 0px 20%;
   
   &.animation {
     transition: all .9s;
