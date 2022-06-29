@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useGroupContext } from "../../../hooks/groupDataApplication";
 import GroupComponent from "../../Groups/GroupComponent";
 import { useDeviceTypeContext } from "../../../hooks/deviceTypeDataApplication";
+import Loading from "../../Loading";
 
 export default function DeviceInputsComponent() {
 
@@ -48,7 +49,7 @@ export default function DeviceInputsComponent() {
               return <InputForm labelName={"MAC"+(index+1)} placeholder={mac} key={index} columns="1fr 3fr" onChange={ (event) => { console.log({} + event.target.value)}} />
             })
           :
-            null
+            <Loading />
         }
       </ContentMACs>
 
@@ -59,7 +60,7 @@ export default function DeviceInputsComponent() {
               return <GroupComponent isActive={selectedGroup.id === group.id} key={group.id} group={group} action={ () => {setSelectedGroup(group)}} />
             } )
           :
-            null
+            <Loading />
         }
       </ContentGroups>
 
@@ -70,7 +71,7 @@ export default function DeviceInputsComponent() {
               return <GroupComponent isActive={selectedDeviceType.id === device.id} key={device.id} group={device} action={ () => {setSelectedDeviceType(device)}} />
             } )
           :
-            null
+            <Loading />
         }
       </ContentTypeOfDevices>
 

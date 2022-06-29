@@ -4,6 +4,7 @@ import GroupListComponent from "../../components/Groups/GroupListComponent";
 import ShowGroupComponent from "../../components/Groups/ShowGroupComponent";
 import { useGroupContext } from "../../hooks/groupDataApplication";
 import { useLocation } from "react-router-dom";
+import Loading from "../../components/Loading";
 
 
 export default function GroupsScreen() {
@@ -39,7 +40,8 @@ export default function GroupsScreen() {
         <GroupListComponent groups={groups} selectedGroup={selectedGroup} setSelectedGroup={setSelectedGroup} /> 
          <ShowGroupComponent selectedGroup={selectedGroup} />
       </>
-        : null}
+        : 
+        <Loading /> }
      
     </DefaultScreenGrids>
   </>
