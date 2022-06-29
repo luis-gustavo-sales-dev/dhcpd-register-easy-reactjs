@@ -8,6 +8,7 @@ import theme from './styles/theme';
 import { GlobalStyle } from "./styles/global";
 import { GroupDataApplicationProvider } from './hooks/groupDataApplication';
 import { DeviceTypeDataApplicationProvider } from './hooks/deviceTypeDataApplication';
+import { DeviceDataApplicationProvider } from './hooks/deviceDataApplication';
 
 function App() {
   const title: string = "DHCP Register"
@@ -15,15 +16,17 @@ function App() {
   return (
     <>
      <ThemeProvider theme={theme}>
-       <DeviceTypeDataApplicationProvider>
-        <GroupDataApplicationProvider>
-          <Container>
-            <AppRoutes>
-              <Header actualRouter={title} />
-            </AppRoutes>
-          </Container>
-        </GroupDataApplicationProvider>
-       </DeviceTypeDataApplicationProvider>
+       <DeviceDataApplicationProvider>
+        <DeviceTypeDataApplicationProvider>
+          <GroupDataApplicationProvider>
+            <Container>
+              <AppRoutes>
+                <Header actualRouter={title} />
+              </AppRoutes>
+            </Container>
+          </GroupDataApplicationProvider>
+        </DeviceTypeDataApplicationProvider>
+       </DeviceDataApplicationProvider>
       </ThemeProvider>
       <GlobalStyle />
     </>
