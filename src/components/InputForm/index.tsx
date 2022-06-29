@@ -1,15 +1,16 @@
 import { Container, Input, Label } from "./style";
+import {InputHTMLAttributes, FC} from 'react'
 
-interface InputFormsProps {
+interface InputFormsProps extends InputHTMLAttributes<HTMLInputElement> {
   labelName: string;
-  inputValue? : string;
+  columns: string;
 }
 
-export default function InputForm({ labelName, inputValue }:InputFormsProps) {
+export default function InputForm({ labelName, columns, ...rest }:InputFormsProps) {
   return (
-    <Container>
+    <Container columns={columns}>
       <Label>{labelName}</Label>
-      <Input value={inputValue} readOnly />
+      <Input {...rest} />
     </Container>
   );
 }

@@ -2,27 +2,39 @@ import { useEffect } from "react";
 import DefaultScreenGrids from "../../components/DefaultScreenGrids";
 import GroupListComponent from "../../components/Groups/GroupListComponent";
 import ShowGroupComponent from "../../components/Groups/ShowGroupComponent";
-import { useGroupContext } from "../../hooks/dataapplication";
-import { Container } from "./style";
+import { useGroupContext } from "../../hooks/groupDataApplication";
+import { useLocation } from "react-router-dom";
 
 
 export default function GroupsScreen() {
-  const { groups, selectedGroup, setSelectedGroup, loadingGroups } = useGroupContext();
+  const { groups, getGroups, selectedGroup, setSelectedGroup, loadingGroups, setLoadingGroups } = useGroupContext();
 
-  function loadGroups() {
+  const location = useLocation();
+
+  async function loadGroups() {
     // Aqui tem que ser uma chamada assincrona
     // Converte o dados para JSON (ou não se usar axios)
-    console.log("loadGroups" + groups)
+    
+    setSelectedGroup(groups[0])
+    setLoadingGroups(false)
+
+
 
   }
 
   useEffect( () => {
-    loadGroups()
-  },[]);
+    async function start() {
+      await getGroups();
+      await loadGroups();
+    }
+
+    start();
+    
+  },[location]);
 
   return <>
-    <DefaultScreenGrids>
-      { (!loadingGroups && selectedGroup && groups && groups.length > 0) ? 
+    <DefaultScreenGrids colums="1fr 3fr">
+      { (!loadingGroups && selectedGroup && groups) ? 
       <>
         <GroupListComponent groups={groups} selectedGroup={selectedGroup} setSelectedGroup={setSelectedGroup} /> 
          <ShowGroupComponent selectedGroup={selectedGroup} />

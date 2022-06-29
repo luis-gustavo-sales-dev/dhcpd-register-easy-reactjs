@@ -5,7 +5,7 @@ interface ActionButtonProps {
   action: () => void;
 }
 
-export function ActionButton({ text, action }:ActionButtonProps) {
+export default function ActionButton({ text, action }:ActionButtonProps) {
   return (
     <>
       <Button onClick={ () => action() }>{text}</Button>

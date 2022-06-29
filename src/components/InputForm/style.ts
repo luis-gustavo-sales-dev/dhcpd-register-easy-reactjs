@@ -1,9 +1,13 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+interface InputFormProps {
+  columns: string;
+}
+
+export const Container = styled.div<InputFormProps>`
   width: 100% ;
   display: grid ;
-  grid-template-columns: 1fr 2fr ;
+  grid-template-columns: ${ (props) => props.columns} ;
 `
 
 export const Label = styled.label`
@@ -12,5 +16,5 @@ export const Label = styled.label`
 `
 
 export const Input = styled.input`
-  width: 50% ;
+  width: 100% ;
 `

@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { Group } from "../../../entities/Group";
-import { useGroupContext } from "../../../hooks/dataapplication";
 import GroupComponent from "../GroupComponent";
 import { Container } from "./style";
 

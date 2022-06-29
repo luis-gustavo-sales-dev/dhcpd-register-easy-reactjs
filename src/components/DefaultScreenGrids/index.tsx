@@ -4,20 +4,24 @@ import { ReactNode } from "react";
 import { Container } from "./style";
 
 interface DefaultScreenGridsProps {
-  children: ReactNode
+  children: ReactNode;
+  colums: string;
 }
 
-export default function DefaultScreenGrids ({children}: DefaultScreenGridsProps) {
+export default function DefaultScreenGrids ({children, colums}: DefaultScreenGridsProps) {
 
   const [animate, setAnimate] = useState("no-animation")
 
 
   useEffect( () => {
     setAnimate("animation")
-    console.log(animate)
   }, []);
 
-  return <Container className={animate}>
+  useEffect( () => {
+    console.log("animate: " + animate)
+  }, [animate])
+
+  return <Container className={animate} colums={colums}>
     {children}
   </Container>
 }

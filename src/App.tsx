@@ -6,21 +6,24 @@ import { AppRoutes } from './routes';
 import { Container } from './style';
 import theme from './styles/theme';
 import { GlobalStyle } from "./styles/global";
-import { DataApplicationProvider } from './hooks/dataapplication';
+import { GroupDataApplicationProvider } from './hooks/groupDataApplication';
+import { DeviceTypeDataApplicationProvider } from './hooks/deviceTypeDataApplication';
 
 function App() {
-  const title: string = "DHCP Register Tool"
+  const title: string = "DHCP Register"
 
   return (
     <>
      <ThemeProvider theme={theme}>
-       <DataApplicationProvider>
-        <Container>
-          <AppRoutes>
-            <Header actualRouter={title} />
-          </AppRoutes>
-        </Container>
-       </DataApplicationProvider>
+       <DeviceTypeDataApplicationProvider>
+        <GroupDataApplicationProvider>
+          <Container>
+            <AppRoutes>
+              <Header actualRouter={title} />
+            </AppRoutes>
+          </Container>
+        </GroupDataApplicationProvider>
+       </DeviceTypeDataApplicationProvider>
       </ThemeProvider>
       <GlobalStyle />
     </>
