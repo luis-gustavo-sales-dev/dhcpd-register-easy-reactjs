@@ -1,12 +1,26 @@
+import { Device } from "../../../entities/Device";
 import InputForm from "../../InputForm";
+import DeviceComponent from "../DeviceComponent";
 import { Container } from "./style";
 
 
 export default function DeviceListComponent() {
 
+  let device: Device = {
+    ids: {
+      cpf: "122",
+      mac: "00000"
+    },
+    devicetype: {
+      id: 1,
+      name: "Celular"
+    },
+    group: {
+      name: "Servidor"
+    }
+  }
   return <Container>
-    <InputForm labelName="Servidor - 10.12.160.5/22" columns="2fr 2fr" value={"000000000000"}/>
-    <InputForm labelName="Servidor - 10.10.160.5/22" columns="2fr 2fr" value={"000000000000"}/>
-    <InputForm labelName="Servidor - 10.17.160.5/22" columns="2fr 2fr" value={"000000000000"}/>
+    <DeviceComponent device={device} />
+    <DeviceComponent device={device}/>
   </Container>
 }
