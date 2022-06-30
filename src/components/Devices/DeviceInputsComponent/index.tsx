@@ -6,12 +6,15 @@ import { useGroupContext } from "../../../hooks/groupDataApplication";
 import GroupComponent from "../../Groups/GroupComponent";
 import { useDeviceTypeContext } from "../../../hooks/deviceTypeDataApplication";
 import Loading from "../../Loading";
+import { useDeviceContext } from "../../../hooks/deviceDataApplication";
 
 export default function DeviceInputsComponent() {
 
   const { groups, getGroups, selectedGroup, setSelectedGroup, loadingGroups, setLoadingGroups } = useGroupContext();
 
   const { deviceTypes, getDeviceTypes, selectedDeviceType, setSelectedDeviceType, loadingDeviceTypes, setLoadingDeviceTypes } = useDeviceTypeContext();
+
+  const { getDevicesWithCpf, setLoadingDevices } = useDeviceContext();
 
   let [macToStore, setMacToStore] = useState([] as string[]);
   const macPlaceHolder: string = "exemplo: ab00cd789800"
@@ -22,6 +25,18 @@ export default function DeviceInputsComponent() {
     macToStore && macToStore.length < 4 ? 
     setMacToStore([...macToStore, macPlaceHolder]) :
     alert("Não é possível cadastrar mais do que 4 dispositivos por vez.")
+  }
+
+  async function searchCpf(cpf: string) {
+    setLoadingDevices(true)
+    if (cpf.length === 11) {
+      console.log("Procurando CPF: "+cpf)
+      await getDevicesWithCpf(cpf)
+    }
+    
+    if (cpf.length === 0) {
+      setLoadingDevices(false)
+    }
   }
 
   useEffect( () => {
@@ -39,7 +54,7 @@ export default function DeviceInputsComponent() {
     <Container>
 
       <ContentActions>
-        <InputForm labelName="CPF" columns="1fr 3fr" onChange={ (event) => { console.log(event.target.value)}} />
+        <InputForm labelName="CPF" columns="1fr 3fr" onChange={ (event) => { searchCpf(event.target.value)}} maxLength={11} />
         <MoveButton>
           <ActionButton text="+" action={addMacsToStore}/>
         </MoveButton>
@@ -48,7 +63,7 @@ export default function DeviceInputsComponent() {
       <ContentMACs>
         { macToStore && macToStore.length > 0 ?
             macToStore.map( (mac, index) => {
-              return <InputForm labelName={"MAC"+(index+1)} placeholder={mac} key={index} columns="1fr 3fr" onChange={ (event) => { console.log({} + event.target.value)}} />
+              return <InputForm labelName={"MAC"+(index+1)} placeholder={mac} key={index} columns="1fr 3fr" onChange={ (event) => { console.log({} + event.target.value)}} maxLength={12} />
             })
           :
             <Loading />

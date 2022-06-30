@@ -1,26 +1,38 @@
+import { useEffect } from "react";
 import { Device } from "../../../entities/Device";
+import { useDeviceContext } from "../../../hooks/deviceDataApplication";
 import InputForm from "../../InputForm";
+import Loading from "../../Loading";
 import DeviceComponent from "../DeviceComponent";
 import { Container } from "./style";
 
 
 export default function DeviceListComponent() {
 
-  let device: Device = {
-    ids: {
-      cpf: "122",
-      mac: "00000"
-    },
-    devicetype: {
-      id: 1,
-      name: "Celular"
-    },
-    group: {
-      name: "Servidor"
+  const { devices, loadingDevices, setLoadingDevices, setDevices } = useDeviceContext();
+
+  useEffect( () => {
+    async function start() {
+      setLoadingDevices(true);
+      setDevices([])
     }
-  }
+    start()
+  },[])
+
+
   return <Container>
-    <DeviceComponent device={device} />
-    <DeviceComponent device={device}/>
+    {
+      devices && devices.length >= 1 && !loadingDevices ?
+        devices.map( (d) => {
+          // console.log(d)
+          return <DeviceComponent device={d} key={d.ids.mac} />
+        })
+      :
+      <>
+        {
+          loadingDevices  ? <Loading /> :<h2>Não há registros para esse CPF</h2>
+        }
+      </>
+    }
   </Container>
 }

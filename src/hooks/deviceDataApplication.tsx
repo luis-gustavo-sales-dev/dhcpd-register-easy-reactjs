@@ -9,6 +9,7 @@ interface DeviceDataApplicationProps {
 
 interface ContextApplicationData {
   devices: Device[];
+  setDevices: (devices: Device[]) => void;
   // Tem que retornar uma promise de void aqui
   getDevicesWithCpf: (cpf: string) => Promise<void>;
   deleteDevicesWithCpfAndMac: (cpf: string, mac: string) => Promise<void>;
@@ -27,7 +28,7 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
 
 
 
-  const [devices, setDevices] = useState<Device[]>([] as Device[]);
+  const [devices, setDevices] = useState([] as Device[]);
   const [loadingDevices, setLoadingDevices] = useState(true);
   const [deletingDevice, setDeletingDevice] = useState("");
 
@@ -66,6 +67,7 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
       value={
         {
           devices,
+          setDevices,
           getDevicesWithCpf,
           deleteDevicesWithCpfAndMac,
           loadingDevices,

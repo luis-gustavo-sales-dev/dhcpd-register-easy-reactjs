@@ -9,8 +9,8 @@ interface DeviceComponentProps {
 export default function DeviceComponent({ device }:DeviceComponentProps) {
   return <Container>
       <InputForm columns="1fr" fontSize="1rem" readOnly value={device.group.name}/>
-      <InputForm columns="1fr" fontSize="1rem" readOnly value={device.devicetype.name}/>
-      <InputForm columns="1fr" fontSize="1rem" value={device.ids.mac} />
+      <InputForm columns="1fr" fontSize="1rem" readOnly value={device.deviceType.name}/>
+      <InputForm columns="1fr" fontSize="1rem" readOnly value={device.ids.mac} />
       <CloseButton />
     </Container>
 }

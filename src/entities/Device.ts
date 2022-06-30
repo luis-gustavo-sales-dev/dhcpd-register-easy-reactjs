@@ -8,5 +8,5 @@ export interface Device {
   group: {
     name: string
   },
-  devicetype: DeviceType
+  deviceType: DeviceType
 }
