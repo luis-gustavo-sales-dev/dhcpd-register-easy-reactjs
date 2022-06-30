@@ -1,6 +1,6 @@
 import InputForm from "../../InputForm";
 import ActionButton from "../../ActionButton";
-import { Container, ContentActions, ContentMACs, ContentGroups, ContentTypeOfDevices } from "./style";
+import { Container, ContentActions, ContentMACs, ContentGroups, ContentTypeOfDevices, MoveButton } from "./style";
 import { useEffect, useState } from "react";
 import { useGroupContext } from "../../../hooks/groupDataApplication";
 import GroupComponent from "../../Groups/GroupComponent";
@@ -40,7 +40,9 @@ export default function DeviceInputsComponent() {
 
       <ContentActions>
         <InputForm labelName="CPF" columns="1fr 3fr" onChange={ (event) => { console.log(event.target.value)}} />
-        <ActionButton text="+" action={addMacsToStore}/>
+        <MoveButton>
+          <ActionButton text="+" action={addMacsToStore}/>
+        </MoveButton>
       </ContentActions>
 
       <ContentMACs>

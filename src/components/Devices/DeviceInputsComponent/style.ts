@@ -11,6 +11,12 @@ export const ContentActions = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: flex-end ;
+  position: relative;
+`
+
+export const MoveButton = styled.div`
+  position: absolute;
+
 `
 
 export const ContentMACs = styled.div`
