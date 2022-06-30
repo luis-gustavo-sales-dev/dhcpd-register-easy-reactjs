@@ -22,7 +22,7 @@ const DeviceTypeDataApplicationContext = createContext( {} as ContextApplication
 function DeviceTypeDataApplicationProvider({ children }: DeviceTypeDataApplicationProps) {
 
   const apiGatewayUrl = "dhcpregister"
-  const dhcpDeviceTypeUrl = apiGatewayUrl+"/devicetype"
+  const dhcpDeviceTypeUrl = apiGatewayUrl+"/devicestypes"
 
 
 

@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: grid ;
   grid-template-rows: 1fr 3fr 1fr 1fr;
+  row-gap: 6px ;
 `
 
 export const ContentActions = styled.div`

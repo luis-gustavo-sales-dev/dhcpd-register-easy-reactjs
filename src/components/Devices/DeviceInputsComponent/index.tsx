@@ -19,9 +19,9 @@ export default function DeviceInputsComponent() {
 
   function addMacsToStore() {
     // Tem que colocar um limite aqui
-    macToStore && macToStore.length < 5 ? 
+    macToStore && macToStore.length < 4 ? 
     setMacToStore([...macToStore, macPlaceHolder]) :
-    alert("Não é possível cadastrar mais do que 5 dispositivos por vez.")
+    alert("Não é possível cadastrar mais do que 4 dispositivos por vez.")
   }
 
   useEffect( () => {
