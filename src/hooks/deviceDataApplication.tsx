@@ -1,7 +1,14 @@
+import { AxiosError } from "axios";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { CreateDevices } from "../entities/CreateDevices";
 import { Device } from "../entities/Device";
 import { api } from "../services/api";
 
+interface ResponseErrorType {
+  dateTime: string,
+  status: number,
+  title: string
+}
 
 interface DeviceDataApplicationProps {
   children: ReactNode;
@@ -17,6 +24,9 @@ interface ContextApplicationData {
   setLoadingDevices: (loading: boolean) => void;
   deletingDevice: string;
   setDeletingDevice: (mac: string) => void;
+  createDevices: (createDevices: CreateDevices) => Promise<void>;
+  devicesToCreate: CreateDevices;
+  setDevicesToCreate: (createDevices: CreateDevices) => void; 
 }
 
 const DeviceDataApplicationContext = createContext( {} as ContextApplicationData)
@@ -25,9 +35,18 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
 
   const apiGatewayUrl = "dhcpregister"
   const dhcpDeviceUrl = apiGatewayUrl+"/deviceregisters"
+  const dhcpCreateDeviceBulk = dhcpDeviceUrl + "/bulk"
 
 
 
+  const [devicesToCreate, setDevicesToCreate] = useState<CreateDevices>({
+    group: {
+      id: 1
+    },
+    deviceType: {
+      id: 1
+    }
+  } as CreateDevices)
   const [devices, setDevices] = useState([] as Device[]);
   const [loadingDevices, setLoadingDevices] = useState(true);
   const [deletingDevice, setDeletingDevice] = useState("");
@@ -54,6 +73,34 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
       });
   }
 
+  async function createDevices(createDevices: CreateDevices) {
+    await api.post(dhcpCreateDeviceBulk, createDevices)
+      .then( response => {
+        console.log(response.data)
+        setLoadingDevices(false)
+
+        let defaultDevicesToCreate: CreateDevices = {
+          cpf: "",
+          macs: [],
+          group: {
+            id: 1
+          },
+          deviceType: {
+            id: 1
+          }
+        }
+        setDevicesToCreate(defaultDevicesToCreate);
+
+      }).catch( (e: AxiosError) => {
+        let error: ResponseErrorType = e.response?.data ? e.response?.data as ResponseErrorType : {
+          title:"Não foi possível definir o erro. Entre em contato com programador.",
+          dateTime: Date.now().toString(),
+          status: 500
+        };
+        alert(`Status: ${error.status} \n\nTitulo: ${error.title}`);
+      })
+  }
+
   useEffect( () => {
     async function start() {
       setLoadingDevices(false)
@@ -73,7 +120,10 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
           loadingDevices,
           setLoadingDevices,
           deletingDevice,
-          setDeletingDevice
+          setDeletingDevice,
+          createDevices,
+          devicesToCreate,
+          setDevicesToCreate,
         }
       }>
       {children}
