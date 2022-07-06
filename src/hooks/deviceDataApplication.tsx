@@ -1,8 +1,14 @@
+import { AxiosError } from "axios";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { CreateDevices } from "../entities/CreateDevices";
 import { Device } from "../entities/Device";
 import { api } from "../services/api";
 
+interface ResponseErrorType {
+  dateTime: string,
+  status: number,
+  title: string
+}
 
 interface DeviceDataApplicationProps {
   children: ReactNode;
@@ -72,7 +78,14 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
       .then( response => {
         console.log(response.data)
         setLoadingDevices(false)
-      });
+      }).catch( (e: AxiosError) => {
+        let error: ResponseErrorType = e.response?.data ? e.response?.data as ResponseErrorType : {
+          title:"Não foi possível definir o erro. Entre em contato com programador.",
+          dateTime: Date.now().toString(),
+          status: 500
+        };
+        alert(`Status: ${error.status} \n\nTitulo: ${error.title}`);
+      })
   }
 
   useEffect( () => {
