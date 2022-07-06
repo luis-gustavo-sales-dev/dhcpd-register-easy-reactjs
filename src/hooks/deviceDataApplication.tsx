@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { CreateDevices } from "../entities/CreateDevices";
 import { Device } from "../entities/Device";
 import { api } from "../services/api";
 
@@ -17,6 +18,9 @@ interface ContextApplicationData {
   setLoadingDevices: (loading: boolean) => void;
   deletingDevice: string;
   setDeletingDevice: (mac: string) => void;
+  createDevices: (createDevices: CreateDevices) => Promise<void>;
+  devicesToCreate: CreateDevices;
+  setDevicesToCreate: (createDevices: CreateDevices) => void; 
 }
 
 const DeviceDataApplicationContext = createContext( {} as ContextApplicationData)
@@ -25,9 +29,11 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
 
   const apiGatewayUrl = "dhcpregister"
   const dhcpDeviceUrl = apiGatewayUrl+"/deviceregisters"
+  const dhcpCreateDeviceBulk = dhcpDeviceUrl + "/bulk"
 
 
 
+  const [devicesToCreate, setDevicesToCreate] = useState<CreateDevices>({} as CreateDevices)
   const [devices, setDevices] = useState([] as Device[]);
   const [loadingDevices, setLoadingDevices] = useState(true);
   const [deletingDevice, setDeletingDevice] = useState("");
@@ -54,6 +60,14 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
       });
   }
 
+  async function createDevices(createDevices: CreateDevices) {
+    await api.post(dhcpCreateDeviceBulk, createDevices)
+      .then( response => {
+        console.log(response.data)
+        setLoadingDevices(false)
+      });
+  }
+
   useEffect( () => {
     async function start() {
       setLoadingDevices(false)
@@ -73,7 +87,10 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
           loadingDevices,
           setLoadingDevices,
           deletingDevice,
-          setDeletingDevice
+          setDeletingDevice,
+          createDevices,
+          devicesToCreate,
+          setDevicesToCreate,
         }
       }>
       {children}
