@@ -2,9 +2,11 @@ import { DeviceType } from "./DeviceType"
 
 export interface CreateDevices {
   cpf: string,
-  ids: string[],
+  macs: string[],
   group: {
-    name: string
+    id: number
   },
-  deviceType: DeviceType
+  deviceType: {
+    id: number
+  }
 }

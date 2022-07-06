@@ -33,7 +33,14 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
 
 
 
-  const [devicesToCreate, setDevicesToCreate] = useState<CreateDevices>({} as CreateDevices)
+  const [devicesToCreate, setDevicesToCreate] = useState<CreateDevices>({
+    group: {
+      id: 1
+    },
+    deviceType: {
+      id: 1
+    }
+  } as CreateDevices)
   const [devices, setDevices] = useState([] as Device[]);
   const [loadingDevices, setLoadingDevices] = useState(true);
   const [deletingDevice, setDeletingDevice] = useState("");

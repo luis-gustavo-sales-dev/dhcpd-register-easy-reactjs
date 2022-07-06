@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { Device } from "../../../entities/Device";
 import { useDeviceContext } from "../../../hooks/deviceDataApplication";
+import { useDeviceTypeContext } from "../../../hooks/deviceTypeDataApplication";
+import { useGroupContext } from "../../../hooks/groupDataApplication";
+import ActionButton from "../../ActionButton";
 import InputForm from "../../InputForm";
 import Loading from "../../Loading";
 import DeviceComponent from "../DeviceComponent";
@@ -9,7 +12,11 @@ import { Container } from "./style";
 
 export default function DeviceListComponent() {
 
-  const { devices, loadingDevices, setLoadingDevices, setDevices } = useDeviceContext();
+  const { devices, getDevicesWithCpf, loadingDevices, setLoadingDevices, setDevices, devicesToCreate, setDevicesToCreate, createDevices } = useDeviceContext();
+
+  const { selectedGroup } = useGroupContext();
+
+  const { selectedDeviceType } = useDeviceTypeContext();
 
   useEffect( () => {
     async function start() {
@@ -18,6 +25,17 @@ export default function DeviceListComponent() {
     }
     start()
   },[])
+
+  async function postDevicesToServer() {
+    devicesToCreate.group.id = selectedGroup.id
+    devicesToCreate.deviceType.id = selectedDeviceType.id
+    setDevicesToCreate(devicesToCreate)
+
+    await createDevices(devicesToCreate);
+    setLoadingDevices(true);
+    await getDevicesWithCpf(devicesToCreate.cpf);
+    setLoadingDevices(false);
+  }
 
 
   return <Container>
@@ -34,5 +52,6 @@ export default function DeviceListComponent() {
         }
       </>
     }
+    <ActionButton text="SEND" action={postDevicesToServer}/>
   </Container>
 }
