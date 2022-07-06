@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { CreateDevices } from "../../../entities/CreateDevices";
 import { Device } from "../../../entities/Device";
 import { useDeviceContext } from "../../../hooks/deviceDataApplication";
 import { useDeviceTypeContext } from "../../../hooks/deviceTypeDataApplication";
@@ -33,8 +34,9 @@ export default function DeviceListComponent() {
 
     await createDevices(devicesToCreate);
     setLoadingDevices(true);
-    await getDevicesWithCpf(devicesToCreate.cpf);
-    setLoadingDevices(false);
+    devicesToCreate.cpf && await getDevicesWithCpf(devicesToCreate.cpf);
+    setLoadingDevices(false)
+
   }
 
 

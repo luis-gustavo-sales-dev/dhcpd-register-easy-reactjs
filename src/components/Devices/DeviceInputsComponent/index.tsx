@@ -65,7 +65,7 @@ export default function DeviceInputsComponent() {
     <Container>
 
       <ContentActions>
-        <InputForm labelName="CPF" columns="1fr 3fr" onChange={ (event) => { searchCpf(event.target.value)}} maxLength={11} />
+        <InputForm labelName="CPF" columns="1fr 3fr"  onChange={ (event) => { searchCpf(event.target.value)}} maxLength={11} />
         <MoveButton>
           <ActionButton text="+" action={addMacsInputsToStore}/>
         </MoveButton>
