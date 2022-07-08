@@ -63,13 +63,6 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
     await api.delete(dhcpDeviceUrl+`/${cpf}/${mac}`)
       .then( response => {
         console.log("Deletado? " + response.status)
-        // Remover da lista
-        const noDevice = devices.filter( (device) => {
-          return !(device.ids.mac !== mac)
-        })
-        console.log("noDevice")
-        console.log(noDevice)
-        setDevices([...noDevice])
       }).catch( (e: AxiosError) => {
         let error: ResponseErrorType = e.response?.data ? e.response?.data as ResponseErrorType : {
           title:"Não foi possível definir o erro. Entre em contato com programador.",
@@ -83,12 +76,12 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
   async function createDevices(createDevices: CreateDevices) {
     await api.post(dhcpCreateDeviceBulk, createDevices)
       .then( response => {
+        console.log("createDevices : Resposta: ")
         console.log(response.data)
-        setLoadingDevices(false)
 
         let defaultDevicesToCreate: CreateDevices = {
-          cpf: "",
-          macs: [],
+          cpf: createDevices.cpf,
+          macs: createDevices.macs,
           group: {
             id: 1
           },
