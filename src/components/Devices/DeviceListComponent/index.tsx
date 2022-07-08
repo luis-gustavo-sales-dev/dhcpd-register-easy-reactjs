@@ -39,6 +39,8 @@ export default function DeviceListComponent() {
     await createDevices(devicesToCreate);
     devicesToCreate.cpf && await getDevicesWithCpf(devicesToCreate.cpf);
     setLoadingDevices(false)
+    devicesToCreate.macs = []
+    setDevicesToCreate(devicesToCreate)
 
   }
 

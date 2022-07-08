@@ -79,18 +79,6 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
         console.log("createDevices : Resposta: ")
         console.log(response.data)
 
-        let defaultDevicesToCreate: CreateDevices = {
-          cpf: createDevices.cpf,
-          macs: createDevices.macs,
-          group: {
-            id: 1
-          },
-          deviceType: {
-            id: 1
-          }
-        }
-        setDevicesToCreate(defaultDevicesToCreate);
-
       }).catch( (e: AxiosError) => {
         let error: ResponseErrorType = e.response?.data ? e.response?.data as ResponseErrorType : {
           title:"Não foi possível definir o erro. Entre em contato com programador.",

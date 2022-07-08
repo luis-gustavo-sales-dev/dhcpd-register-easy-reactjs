@@ -1,7 +1,7 @@
 import InputForm from "../../InputForm";
 import ActionButton from "../../ActionButton";
 import { Container, ContentActions, ContentMACs, ContentGroups, ContentTypeOfDevices, MoveButton } from "./style";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGroupContext } from "../../../hooks/groupDataApplication";
 import GroupComponent from "../../Groups/GroupComponent";
 import { useDeviceTypeContext } from "../../../hooks/deviceTypeDataApplication";
@@ -65,7 +65,7 @@ export default function DeviceInputsComponent() {
     <Container>
 
       <ContentActions>
-        <InputForm labelName="CPF" columns="1fr 3fr"  onChange={ (event) => { searchCpf(event.target.value)}} maxLength={11} />
+        <InputForm labelName="CPF" columns="1fr 3fr" defaultValue={devicesToCreate.cpf}  onChange={ (event) => { searchCpf(event.target.value)}} maxLength={11} />
         <MoveButton>
           <ActionButton text="+" action={addMacsInputsToStore}/>
         </MoveButton>
@@ -74,7 +74,7 @@ export default function DeviceInputsComponent() {
       <ContentMACs>
         { macToStore && macToStore.length > 0 ?
             macToStore.map( (mac, index) => {
-              return <InputForm labelName={"MAC"+(index+1)} placeholder={mac} key={index} columns="1fr 3fr" onChange={ (event) => { addMacsToDeviceList(event.target.value, index)}} maxLength={12} />
+              return <InputForm labelName={"MAC"+(index+1)} placeholder={mac} key={index} columns="1fr 3fr" onChange={ (event) => { addMacsToDeviceList(event.target.value, index)}} maxLength={12} showClear />
             })
           :
             <Loading />
