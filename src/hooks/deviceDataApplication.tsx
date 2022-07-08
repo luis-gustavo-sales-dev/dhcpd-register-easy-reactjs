@@ -70,7 +70,14 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
         console.log("noDevice")
         console.log(noDevice)
         setDevices([...noDevice])
-      });
+      }).catch( (e: AxiosError) => {
+        let error: ResponseErrorType = e.response?.data ? e.response?.data as ResponseErrorType : {
+          title:"Não foi possível definir o erro. Entre em contato com programador.",
+          dateTime: Date.now().toString(),
+          status: 500
+        };
+        alert(`Status: ${error.status} \n\nTitulo: ${error.title}`);
+      })
   }
 
   async function createDevices(createDevices: CreateDevices) {
