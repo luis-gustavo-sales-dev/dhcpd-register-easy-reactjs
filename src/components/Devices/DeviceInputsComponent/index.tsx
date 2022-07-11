@@ -16,8 +16,13 @@ export default function DeviceInputsComponent() {
 
   const { getDevicesWithCpf, setLoadingDevices, devicesToCreate, setDevicesToCreate } = useDeviceContext();
 
-  let [macToStore, setMacToStore] = useState([] as string[]);
-  const macPlaceHolder: string = "exemplo: ab00cd789800"
+  interface mac {
+    value: string;
+  }
+
+  let [macToStore, setMacToStore] = useState<mac[]>([]);
+
+  const macPlaceHolder: mac = { value: "exemplo: ab00cd789800" }
   
 
   function addMacsInputsToStore() {
@@ -28,10 +33,18 @@ export default function DeviceInputsComponent() {
   }
 
   function addMacsToDeviceList(mac: string, index: number) {
-    macToStore[index] =  mac
-    devicesToCreate.macs = macToStore
+    macToStore[index].value = mac
+    devicesToCreate.macs = macToStore.map<string>( (mac) => mac.value)
+    setMacToStore([...macToStore])
     setDevicesToCreate(devicesToCreate)
     console.log(devicesToCreate)
+  }
+
+  function handleOnClickClearInputFieldButton(index: number){
+    macToStore[index].value = ''
+    devicesToCreate.macs = macToStore.map<string>( (mac) => mac.value)
+    setMacToStore([...macToStore])
+    setDevicesToCreate(devicesToCreate)
   }
 
 
@@ -72,13 +85,23 @@ export default function DeviceInputsComponent() {
       </ContentActions>
 
       <ContentMACs>
+        { /*macToStore && macToStore.length > 0 ?
+            macToStore.map( (mac, index) => {
+              return <InputForm labelName={"MAC"+(index+1)} placeholder={mac} key={index} columns="1fr 3fr" value={"aaaaaa"} onChange={ (event) => { addMacsToDeviceList(event.target.value, index)}} maxLength={12} showClear />
+            })
+          :
+            <Loading />*/
+        }
         { macToStore && macToStore.length > 0 ?
             macToStore.map( (mac, index) => {
-              return <InputForm labelName={"MAC"+(index+1)} placeholder={mac} key={index} columns="1fr 3fr" onChange={ (event) => { addMacsToDeviceList(event.target.value, index)}} maxLength={12} showClear />
+              return <InputForm labelName={"MAC"} columns="1fr 3fr" value={macToStore[index].value}
+              onChange={ (event) => { addMacsToDeviceList(event.target.value, index)}} maxLength={12} showClear onClickClearInputFieldButton={ () => handleOnClickClearInputFieldButton(index)} />
+
             })
           :
             <Loading />
         }
+        
       </ContentMACs>
 
       <ContentGroups>
