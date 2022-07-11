@@ -1,7 +1,7 @@
 import InputForm from "../../InputForm";
 import ActionButton from "../../ActionButton";
 import { Container, ContentActions, ContentMACs, ContentGroups, ContentTypeOfDevices, MoveButton } from "./style";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGroupContext } from "../../../hooks/groupDataApplication";
 import GroupComponent from "../../Groups/GroupComponent";
 import { useDeviceTypeContext } from "../../../hooks/deviceTypeDataApplication";
@@ -22,13 +22,15 @@ export default function DeviceInputsComponent() {
 
   let [macToStore, setMacToStore] = useState<mac[]>([]);
 
-  const macPlaceHolder: mac = { value: "exemplo: ab00cd789800" }
+  const macMessagePlaceHolder = "exemplo: ab00cd789800" 
+
+  const initialMacValue: mac = { value: "" }
   
 
   function addMacsInputsToStore() {
     // Tem que colocar um limite aqui
     macToStore && macToStore.length < 4 ? 
-    setMacToStore([...macToStore, macPlaceHolder]) :
+    setMacToStore([...macToStore, initialMacValue]) :
     alert("Não é possível cadastrar mais do que 4 dispositivos por vez.")
   }
 
@@ -65,7 +67,7 @@ export default function DeviceInputsComponent() {
 
   useEffect( () => {
     async function start() {
-      setMacToStore([macPlaceHolder]);
+      setMacToStore([initialMacValue]);
       setLoadingGroups(true);
       setLoadingDeviceTypes(true);
       await getGroups()
@@ -85,17 +87,15 @@ export default function DeviceInputsComponent() {
       </ContentActions>
 
       <ContentMACs>
-        { /*macToStore && macToStore.length > 0 ?
-            macToStore.map( (mac, index) => {
-              return <InputForm labelName={"MAC"+(index+1)} placeholder={mac} key={index} columns="1fr 3fr" value={"aaaaaa"} onChange={ (event) => { addMacsToDeviceList(event.target.value, index)}} maxLength={12} showClear />
-            })
-          :
-            <Loading />*/
-        }
         { macToStore && macToStore.length > 0 ?
             macToStore.map( (mac, index) => {
-              return <InputForm labelName={"MAC"} columns="1fr 3fr" value={macToStore[index].value}
-              onChange={ (event) => { addMacsToDeviceList(event.target.value, index)}} maxLength={12} showClear onClickClearInputFieldButton={ () => handleOnClickClearInputFieldButton(index)} />
+              return <InputForm 
+              labelName={"MAC"+(index+1)}
+              placeholder={macMessagePlaceHolder} 
+              columns="1fr 3fr" 
+              value={macToStore[index].value}
+              onChange={ (event) => { addMacsToDeviceList(event.target.value, index)}} 
+              maxLength={12} showClear onClickClearInputFieldButton={ () => handleOnClickClearInputFieldButton(index)} />
 
             })
           :
