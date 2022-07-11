@@ -10,6 +10,10 @@ import { useDeviceContext } from "../../../hooks/deviceDataApplication";
 
 export default function DeviceInputsComponent() {
 
+  // BEGIN Testing
+  const [ arrayStringValues, setArrayStringValues ] = useState<string[]>(['a', 'b', 'c'])
+  // END Testing
+
   const { groups, getGroups, selectedGroup, setSelectedGroup, loadingGroups, setLoadingGroups } = useGroupContext();
 
   const { deviceTypes, getDeviceTypes, selectedDeviceType, setSelectedDeviceType, loadingDeviceTypes, setLoadingDeviceTypes } = useDeviceTypeContext();
@@ -87,7 +91,7 @@ export default function DeviceInputsComponent() {
       </ContentActions>
 
       <ContentMACs>
-        { macToStore && macToStore.length > 0 ?
+        { /*macToStore && macToStore.length > 0 ?
             macToStore.map( (mac, index) => {
               return <InputForm 
               labelName={"MAC"+(index+1)}
@@ -95,11 +99,23 @@ export default function DeviceInputsComponent() {
               columns="1fr 3fr" 
               value={macToStore[index].value}
               onChange={ (event) => { addMacsToDeviceList(event.target.value, index)}} 
-              maxLength={12} showClear onClickClearInputFieldButton={ () => handleOnClickClearInputFieldButton(index)} />
+              maxLength={12} 
+              showClear 
+              onClickClearInputFieldButton={ () => handleOnClickClearInputFieldButton(index)} />
 
             })
           :
-            <Loading />
+            <Loading />*/
+        }
+
+        {
+          arrayStringValues.map( (value, index) => {
+            return <input value={value} onChange={ (event) => {
+              arrayStringValues[index] = event.target.value
+              setArrayStringValues([...arrayStringValues])
+              console.log("arrayStringValues: " + arrayStringValues)
+            } }/>
+          })
         }
         
       </ContentMACs>
