@@ -9,6 +9,7 @@ import { GlobalStyle } from "./styles/global";
 import { GroupDataApplicationProvider } from './hooks/groupDataApplication';
 import { DeviceTypeDataApplicationProvider } from './hooks/deviceTypeDataApplication';
 import { DeviceDataApplicationProvider } from './hooks/deviceDataApplication';
+import { TestDeviceDataApplicationProvider } from './hooks/hookTesteDataApplication';
 
 function App() {
   const title: string = "DHCP Register"
@@ -19,11 +20,13 @@ function App() {
        <DeviceDataApplicationProvider>
         <DeviceTypeDataApplicationProvider>
           <GroupDataApplicationProvider>
-            <Container>
-              <AppRoutes>
-                <Header actualRouter={title} />
-              </AppRoutes>
-            </Container>
+            <TestDeviceDataApplicationProvider>
+              <Container>
+                <AppRoutes>
+                  <Header actualRouter={title} />
+                </AppRoutes>
+              </Container>
+            </TestDeviceDataApplicationProvider>
           </GroupDataApplicationProvider>
         </DeviceTypeDataApplicationProvider>
        </DeviceDataApplicationProvider>

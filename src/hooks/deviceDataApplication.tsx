@@ -111,13 +111,7 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
     }
 
     // Validando macs
-    if (createDevices.macs && createDevices.macs.length > 0){
-      createDevices.macs.forEach( (mac) => {
-        console.log("mac: " + mac)
-        mac.length === 0 && alert('Existe macs vazios.')
-        return false
-      })
-    } else {
+    if (!createDevices.macs || !(createDevices.macs.length > 0)){
       alert('Precisa preencher os macs para enviar!')
       return false
     }

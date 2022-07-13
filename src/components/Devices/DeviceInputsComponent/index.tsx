@@ -7,6 +7,7 @@ import GroupComponent from "../../Groups/GroupComponent";
 import { useDeviceTypeContext } from "../../../hooks/deviceTypeDataApplication";
 import Loading from "../../Loading";
 import { useDeviceContext } from "../../../hooks/deviceDataApplication";
+import { useTestDeviceContext } from "../../../hooks/hookTesteDataApplication";
 
 export default function DeviceInputsComponent() {
 
@@ -16,37 +17,37 @@ export default function DeviceInputsComponent() {
 
   const { getDevicesWithCpf, setLoadingDevices, devicesToCreate, setDevicesToCreate } = useDeviceContext();
 
+  const { testDevicesToCreate, setTestDevicesToCreate,  } = useTestDeviceContext();
+
   interface mac {
     value: string;
   }
 
-  let [macToStore, setMacToStore] = useState<mac[]>([]);
+  // let [macToStore, setMacToStore] = useState<mac[]>([]);
 
   const macMessagePlaceHolder = "exemplo: ab00cd789800" 
 
-  const initialMacValue: mac = { value: "" }
+  const initialMacValue: string = ""
   
 
   function addMacsInputsToStore() {
     // Tem que colocar um limite aqui
-    macToStore && macToStore.length < 4 ? 
-    setMacToStore([...macToStore, initialMacValue]) :
+    testDevicesToCreate.macs && testDevicesToCreate.macs.length < 4 ? 
+    testDevicesToCreate.macs.push('') :
     alert("Não é possível cadastrar mais do que 4 dispositivos por vez.")
+    setTestDevicesToCreate(testDevicesToCreate) 
   }
 
   function addMacsToDeviceList(mac: string, index: number) {
-    macToStore[index].value = mac
-    devicesToCreate.macs = macToStore.map<string>( (mac) => mac.value)
-    setMacToStore([...macToStore])
-    setDevicesToCreate(devicesToCreate)
-    console.log(devicesToCreate)
+    testDevicesToCreate.macs[index] = mac
+    setTestDevicesToCreate(testDevicesToCreate) 
+
+    console.log(testDevicesToCreate)
   }
 
   function handleOnClickClearInputFieldButton(index: number){
-    macToStore[index].value = ''
-    devicesToCreate.macs = macToStore.map<string>( (mac) => mac.value)
-    setMacToStore([...macToStore])
-    setDevicesToCreate(devicesToCreate)
+    testDevicesToCreate.macs[index] = ''
+    setTestDevicesToCreate(testDevicesToCreate) 
   }
 
 
@@ -67,7 +68,9 @@ export default function DeviceInputsComponent() {
 
   useEffect( () => {
     async function start() {
-      setMacToStore([initialMacValue]);
+      testDevicesToCreate.macs.push(initialMacValue)
+      setTestDevicesToCreate(testDevicesToCreate) 
+
       setLoadingGroups(true);
       setLoadingDeviceTypes(true);
       await getGroups()
@@ -75,6 +78,10 @@ export default function DeviceInputsComponent() {
     }
     start()
   }, [])
+
+  useEffect( () => {
+    setTestDevicesToCreate(testDevicesToCreate)
+  }, [testDevicesToCreate])
 
   return <>
     <Container>
@@ -86,14 +93,35 @@ export default function DeviceInputsComponent() {
         </MoveButton>
       </ContentActions>
 
+      {/*
+        <ContentMACs>
+          { macToStore && macToStore.length > 0 ?
+              macToStore.map( (mac, index) => {
+                return <InputForm 
+                labelName={"MAC"+(index+1)}
+                placeholder={macMessagePlaceHolder} 
+                columns="1fr 3fr" 
+                value={macToStore[index].value}
+                onChange={ (event) => { addMacsToDeviceList(event.target.value, index)}} 
+                maxLength={12} showClear onClickClearInputFieldButton={ () => handleOnClickClearInputFieldButton(index)} />
+
+              })
+            :
+              <Loading />
+          }
+          
+        </ContentMACs>
+      
+      */}
+
       <ContentMACs>
-        { macToStore && macToStore.length > 0 ?
-            macToStore.map( (mac, index) => {
+        { testDevicesToCreate.macs && testDevicesToCreate.macs.length > 0 ?
+            testDevicesToCreate.macs.map( (mac, index) => {
               return <InputForm 
               labelName={"MAC"+(index+1)}
               placeholder={macMessagePlaceHolder} 
               columns="1fr 3fr" 
-              value={macToStore[index].value}
+              value={testDevicesToCreate.macs[index]}
               onChange={ (event) => { addMacsToDeviceList(event.target.value, index)}} 
               maxLength={12} showClear onClickClearInputFieldButton={ () => handleOnClickClearInputFieldButton(index)} />
 
