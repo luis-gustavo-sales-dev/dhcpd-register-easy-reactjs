@@ -1,5 +1,6 @@
 import { ClearInputField, Container, Input, Label } from "./style";
 import {InputHTMLAttributes} from 'react'
+import { CloseButton } from "../CloseButton";
 
 interface InputFormsProps extends InputHTMLAttributes<HTMLInputElement> {
   labelName?: string;
@@ -15,7 +16,7 @@ export default function InputForm({ labelName, columns, fontSize, showClear, onC
     <Container columns={columns}>
       { labelName ? <Label>{labelName}</Label> : null}
       <Input {...rest} fontSize={fontSize}/>
-      <ClearInputField showClear={showClear} onClick={onClickClearInputFieldButton}  />
+      {showClear && <CloseButton closeFunction={onClickClearInputFieldButton}  />}
     </Container>
   );
 }
