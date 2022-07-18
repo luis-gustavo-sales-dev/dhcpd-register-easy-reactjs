@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const Container = styled.header`
-  background: var(--shape);
-  border-bottom: 4px solid var(--blue) ;
+  background: ${ ({theme}) => theme.colors.shape };
+  border-bottom: 4px solid ${ ({ theme }) => theme.colors.blue } ;
 `;
 
 export const Content = styled.div`

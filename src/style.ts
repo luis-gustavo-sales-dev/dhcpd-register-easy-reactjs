@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  
-`
-
-export const Body = styled.div`
-  background: var(--background);
+  height: 100vh ;
 `
