@@ -1,3 +1,4 @@
+import matchers from "@testing-library/jest-dom/matchers";
 import { AxiosError } from "axios";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { CreateDevices } from "../entities/CreateDevices";
@@ -15,9 +16,12 @@ interface DeviceDataApplicationProps {
 }
 
 interface ContextApplicationData {
+  cpf: string;
+  setCpf: (cpf: string) => void;
+  macs: string[];
+  setMacs: (macs: string[]) => void;
   devices: Device[];
   setDevices: (devices: Device[]) => void;
-  // Tem que retornar uma promise de void aqui
   getDevicesWithCpf: (cpf: string) => Promise<void>;
   deleteDevicesWithCpfAndMac: (cpf: string, mac: string) => Promise<void>;
   loadingDevices: boolean;
@@ -39,7 +43,10 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
 
 
 
+  const [cpf, setCpf] = useState('');
+  const [macs, setMacs] = useState([] as string[]);
   const [devicesToCreate, setDevicesToCreate] = useState<CreateDevices>({
+    cpf,
     group: {
       id: 1
     },
@@ -136,6 +143,10 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
     <DeviceDataApplicationContext.Provider
       value={
         {
+          cpf,
+          setCpf,
+          macs,
+          setMacs,
           devices,
           setDevices,
           getDevicesWithCpf,

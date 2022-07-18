@@ -1,5 +1,5 @@
 import { ClearInputField, Container, Input, Label } from "./style";
-import {InputHTMLAttributes, FC, RefObject, useRef} from 'react'
+import {InputHTMLAttributes} from 'react'
 
 interface InputFormsProps extends InputHTMLAttributes<HTMLInputElement> {
   labelName?: string;

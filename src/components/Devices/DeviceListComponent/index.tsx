@@ -14,7 +14,7 @@ import { Container } from "./style";
 
 export default function DeviceListComponent() {
 
-  const { devices, getDevicesWithCpf, loadingDevices, setLoadingDevices, setDevices, devicesToCreate, setDevicesToCreate, createDevices, deleteDevicesWithCpfAndMac } = useDeviceContext();
+  const { macs, setMacs, devices, getDevicesWithCpf, loadingDevices, setLoadingDevices, setDevices, devicesToCreate, setDevicesToCreate, createDevices, deleteDevicesWithCpfAndMac } = useDeviceContext();
 
   const { selectedGroup } = useGroupContext();
 
@@ -39,6 +39,7 @@ export default function DeviceListComponent() {
     await createDevices(devicesToCreate);
     devicesToCreate.cpf && await getDevicesWithCpf(devicesToCreate.cpf);
     setLoadingDevices(false)
+    setMacs([''])
     devicesToCreate.macs = []
     setDevicesToCreate(devicesToCreate)
 
