@@ -1,3 +1,4 @@
+import matchers from "@testing-library/jest-dom/matchers";
 import { AxiosError } from "axios";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { CreateDevices } from "../entities/CreateDevices";
@@ -15,9 +16,12 @@ interface DeviceDataApplicationProps {
 }
 
 interface ContextApplicationData {
+  cpf: string;
+  setCpf: (cpf: string) => void;
+  macs: string[];
+  setMacs: (macs: string[]) => void;
   devices: Device[];
   setDevices: (devices: Device[]) => void;
-  // Tem que retornar uma promise de void aqui
   getDevicesWithCpf: (cpf: string) => Promise<void>;
   deleteDevicesWithCpfAndMac: (cpf: string, mac: string) => Promise<void>;
   loadingDevices: boolean;
@@ -39,7 +43,10 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
 
 
 
+  const [cpf, setCpf] = useState('');
+  const [macs, setMacs] = useState([] as string[]);
   const [devicesToCreate, setDevicesToCreate] = useState<CreateDevices>({
+    cpf,
     group: {
       id: 1
     },
@@ -74,31 +81,54 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
   }
 
   async function createDevices(createDevices: CreateDevices) {
-    await api.post(dhcpCreateDeviceBulk, createDevices)
-      .then( response => {
-        console.log("createDevices : Resposta: ")
-        console.log(response.data)
+    const validate:boolean = validateCreateDevices(createDevices)
+    console.log("Validate: " + validate)
+    if (validate) {
 
-        let defaultDevicesToCreate: CreateDevices = {
-          cpf: createDevices.cpf,
-          macs: createDevices.macs,
-          group: {
-            id: 1
-          },
-          deviceType: {
-            id: 1
-          }
-        }
-        setDevicesToCreate(defaultDevicesToCreate);
+      await api.post(dhcpCreateDeviceBulk, createDevices)
+        .then( response => {
+          console.log("createDevices : Resposta: ")
+          console.log(response.data)
+  
+        }).catch( (e: AxiosError) => {
+          let error: ResponseErrorType = e.response?.data ? e.response?.data as ResponseErrorType : {
+            title:"Não foi possível definir o erro. Entre em contato com programador.",
+            dateTime: Date.now().toString(),
+            status: 500
+          };
+          alert(`Status: ${error.status} \n\nTitulo: ${error.title}`);
+        })
+    
+    }
+  }
 
-      }).catch( (e: AxiosError) => {
-        let error: ResponseErrorType = e.response?.data ? e.response?.data as ResponseErrorType : {
-          title:"Não foi possível definir o erro. Entre em contato com programador.",
-          dateTime: Date.now().toString(),
-          status: 500
-        };
-        alert(`Status: ${error.status} \n\nTitulo: ${error.title}`);
+  function validateCreateDevices(createDevices: CreateDevices): boolean {
+    // Validate cpf
+    if (!createDevices.cpf) {
+      alert("Cpf não pode ser vazio!")
+      return false
+    }
+    if (!createDevices.deviceType) {
+      alert('Dispositivo não pode ser vazio.')
+      return false
+    }
+    if (!createDevices.deviceType) {
+      alert('Grupo não pode ser vazio.')
+      return false
+    }
+
+    // Validando macs
+    if (createDevices.macs && createDevices.macs.length > 0){
+      createDevices.macs.forEach( (mac) => {
+        console.log("mac: " + mac)
+        mac.length === 0 && alert('Existe macs vazios.')
+        return false
       })
+    } else {
+      alert('Precisa preencher os macs para enviar!')
+      return false
+    }
+    return true
   }
 
   useEffect( () => {
@@ -113,6 +143,10 @@ function DeviceDataApplicationProvider({ children }: DeviceDataApplicationProps)
     <DeviceDataApplicationContext.Provider
       value={
         {
+          cpf,
+          setCpf,
+          macs,
+          setMacs,
           devices,
           setDevices,
           getDevicesWithCpf,

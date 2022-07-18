@@ -1,7 +1,7 @@
 import InputForm from "../../InputForm";
 import ActionButton from "../../ActionButton";
 import { Container, ContentActions, ContentMACs, ContentGroups, ContentTypeOfDevices, MoveButton } from "./style";
-import { useEffect, useState } from "react";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import { useGroupContext } from "../../../hooks/groupDataApplication";
 import GroupComponent from "../../Groups/GroupComponent";
 import { useDeviceTypeContext } from "../../../hooks/deviceTypeDataApplication";
@@ -14,33 +14,54 @@ export default function DeviceInputsComponent() {
 
   const { deviceTypes, getDeviceTypes, selectedDeviceType, setSelectedDeviceType, loadingDeviceTypes, setLoadingDeviceTypes } = useDeviceTypeContext();
 
-  const { getDevicesWithCpf, setLoadingDevices, devicesToCreate, setDevicesToCreate } = useDeviceContext();
+  const { cpf, setCpf, macs, setMacs,  getDevicesWithCpf, setLoadingDevices, devicesToCreate, setDevicesToCreate } = useDeviceContext();
 
-  let [macToStore, setMacToStore] = useState([] as string[]);
-  const macPlaceHolder: string = "exemplo: ab00cd789800"
+  const cpfInputRef = useRef<HTMLInputElement>(null);
+
+  // let [macToStore, setMacToStore] = useState<mac[]>([]);
+
+  const macMessagePlaceHolder = "exemplo: ab00cd789800"
+  const initialMacValue = ''
   
 
   function addMacsInputsToStore() {
     // Tem que colocar um limite aqui
-    macToStore && macToStore.length < 4 ? 
-    setMacToStore([...macToStore, macPlaceHolder]) :
+    macs && macs.length < 4 ? 
+    setMacs([...macs, initialMacValue]) :
     alert("Não é possível cadastrar mais do que 4 dispositivos por vez.")
   }
 
   function addMacsToDeviceList(mac: string, index: number) {
-    macToStore[index] =  mac
-    devicesToCreate.macs = macToStore
+    macs[index] = mac
+    devicesToCreate.macs = macs
+    setMacs([...macs])
     setDevicesToCreate(devicesToCreate)
     console.log(devicesToCreate)
+  }
+
+  function handleOnClickClearInputMACFieldButton(index: number){
+    macs[index] = ''
+    devicesToCreate.macs = macs
+    setMacs([...macs])
+    setDevicesToCreate(devicesToCreate)
+  }
+
+  function handleOnClickClearInputCPFFieldButton(){
+    setCpf('')
+    devicesToCreate.cpf = ''
+    setDevicesToCreate(devicesToCreate)
+    // cpfInputRef.current && cpfInputRef.current.innerText = ""
   }
 
 
 
   async function searchCpf(cpf: string) {
-    setLoadingDevices(true)
+    setCpf(cpf)
     devicesToCreate.cpf = cpf
     setDevicesToCreate(devicesToCreate)
+    console.log("chamei procurar cpf")
     if (cpf.length === 11) {
+      setLoadingDevices(true)
       console.log("Procurando CPF: "+cpf)
       await getDevicesWithCpf(cpf)
     }
@@ -52,7 +73,7 @@ export default function DeviceInputsComponent() {
 
   useEffect( () => {
     async function start() {
-      setMacToStore([macPlaceHolder]);
+      setMacs([initialMacValue]);
       setLoadingGroups(true);
       setLoadingDeviceTypes(true);
       await getGroups()
@@ -65,20 +86,28 @@ export default function DeviceInputsComponent() {
     <Container>
 
       <ContentActions>
-        <InputForm labelName="CPF" columns="1fr 3fr"  onChange={ (event) => { searchCpf(event.target.value)}} maxLength={11} />
+        <InputForm labelName="CPF" columns="1fr 3fr" defaultValue={cpf} value={cpf} onChange={ (event) => { searchCpf(event.target.value)}} maxLength={11} showClear onClickClearInputFieldButton={() => handleOnClickClearInputCPFFieldButton()} />
         <MoveButton>
           <ActionButton text="+" action={addMacsInputsToStore}/>
         </MoveButton>
       </ContentActions>
 
       <ContentMACs>
-        { macToStore && macToStore.length > 0 ?
-            macToStore.map( (mac, index) => {
-              return <InputForm labelName={"MAC"+(index+1)} placeholder={mac} key={index} columns="1fr 3fr" onChange={ (event) => { addMacsToDeviceList(event.target.value, index)}} maxLength={12} />
+        { macs && macs.length > 0 ?
+            macs.map( (mac, index) => {
+              return <InputForm 
+              labelName={"MAC"+(index+1)}
+              placeholder={macMessagePlaceHolder} 
+              columns="1fr 3fr" 
+              value={macs[index]}
+              onChange={ (event) => { addMacsToDeviceList(event.target.value, index)}} 
+              maxLength={12} showClear onClickClearInputFieldButton={ () => handleOnClickClearInputMACFieldButton(index)} />
+
             })
           :
             <Loading />
         }
+        
       </ContentMACs>
 
       <ContentGroups>
